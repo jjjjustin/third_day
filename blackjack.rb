@@ -34,7 +34,7 @@ class Blackjack
             else
               puts "Thanks for playing!"
 
-
+#Shouldn't have all this empty space here - JH
             end
           end
         end
@@ -43,7 +43,7 @@ class Blackjack
 
   end
 
-  class Deck
+  class Deck # This line should be unindented - JH
   attr_reader :cards
   def initialize
     aces = [11] * 4
@@ -83,7 +83,7 @@ puts "Would you like to play a hand?"
     else
       puts "Thanks for playing!"
     end
-
+#identation got a little weird down here. Push all these unindent lines 80-85 - JH 
 
 
 
