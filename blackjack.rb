@@ -1,13 +1,54 @@
-# ***** Blackjack *****
-#
-#
-#
-class Deck
+
+
+class Blackjack
+  attr_accessor :player
+
+  def initialize
+    @user = Player.new
+    @dealer = Player.new
+  end
+
+  def play
+    while @user.dollars > 0
+      @user.hand << @user.cards.draw
+      @dealer.hand << @dealer.cards.draw
+      @user.hand << @user.cards.draw
+      @dealer.hand << @dealer.cards.draw
+      @user.dollars -= 10
+      puts "Player shows #{@user.hand[0]} #{@user.hand[1]} and the dealer shows #{@dealer.hand[0]}"
+      puts "Do you want to stay or hit?"
+      stay_or_hit = gets.chomp.downcase
+        if stay_or_hit == "hit"
+          @user.hand << @user.cards.draw
+          puts "Player shows [#{@user.hand[0]}], and [#{@user.hand[1]}] and [#{@user.hand[2]}]"
+          if @user.hand.reduce(:+) > 21
+            puts '-' * 25
+            puts "Oh! Your total is #{@user.hand.reduce(:+)} - you're Busted!"
+            puts '-' * 25
+        else
+          puts "OK, your total is  #{@user.hand.reduce(:+)}, and the dealer has #{@dealer.hand.reduce(:+)}"
+          puts "Would you like to play again?"
+          again = gets.chomp.downcase
+            if again == "yes"
+              Blackjack.new.play
+            else
+              puts "Thanks for playing!"
+
+
+            end
+          end
+        end
+      end
+    end
+
+  end
+
+  class Deck
   attr_reader :cards
   def initialize
-    aces = [10] * 4
-    face = [11] * 4
-    @cards = ((2..9).to_a * 4) + (aces) + (face).shuffle
+    aces = [11] * 4
+    face = [10] * 16
+    @cards = ((2..9).to_a * 4).concat(aces).concat(face).shuffle
   end
 
   def count
@@ -19,55 +60,32 @@ class Deck
   end
 
   def draw
-    @cards.shift
+    @cards.shift()
   end
 end
 
+
 class Player
-  attr_accessor :cards, :dollars
+  attr_accessor :cards, :dollars, :hand, :score
   def initialize
     @cards = Deck.new
     @dollars = 100
+    @score = 0
+    @hand = []
   end
 end
 
-
-
-
-class Blackjack
-  def initialize
-    @user = Player.new
-    @dealer = Player.new
-  end
-
-  def play
-    while @user.dollars > 10 do
-      card_one = @dealer.cards.draw
-      card_two = @user.cards.draw
-      card_three = @dealer.cards.draw
-      card_four = @dealer.cards.draw
-      @user.dollars -= 10
-      puts "Player shows [#{card_one}] and [#{card_three}] and the dealer shows [#{card_two}]"
-      puts "Do you want to stay or hit?"
-        stay_or_hit = gets.chomp.downcase
-        if stay_or_hit == "hit"
-          card_five = @user.cards.draw
-          puts "Player shows [#{card_five}], and [#{card_one}] and [#{card_three}]"
-        elsif stay_or_hit == "stay"
-          puts "OK, your total is  (#{card_one} + #{card_three}), and the dealer has (#{card_two} + #{card_four})"
-      end
-    end
-
-    end
-  end
-
 puts "Let's play some Blackjack!"
-  puts "Would you like to play a hand?"
-    play_again = gets.chomp.downcase
+puts "Would you like to play a hand?"
+  play_again = gets.chomp.downcase
     if play_again == "yes"
       Blackjack.new.play
     else
       puts "Thanks for playing!"
+    end
 
 
-end
+
+
+
+
